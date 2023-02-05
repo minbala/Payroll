@@ -24,3 +24,8 @@ type EmployeesProfileDetail struct {
 	Tasks []TasksDetail
 	EmployeesProfile
 }
+
+type TasksDataInput struct {
+	Tasks
+	EmployeeId []int
+}

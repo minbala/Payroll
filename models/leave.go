@@ -31,8 +31,12 @@ func init() {
 // last inserted Id on success.
 func AddLeave(m *Leave) (id int64, err error) {
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
-	return
+	if isTrue := m.StartingDate.Before(m.EndingDate); isTrue {
+		id, err = o.Insert(m)
+		return id, err
+	}
+
+	return id, errors.New("ending must come after starting date")
 }
 
 // GetLeaveById retrieves Leave by Id. Returns error if

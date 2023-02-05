@@ -14,6 +14,10 @@ func main() {
 
 	}
 	orm.RegisterDataBase("default", "mysql", sqlConn)
+	err = orm.RunSyncdb("default", false, false)
+	if err != nil {
+
+	}
 	if beego.BConfig.RunMode == "dev" {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"

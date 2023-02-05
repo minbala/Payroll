@@ -57,6 +57,11 @@ func init() {
 				&controllers.EmployeesController{},
 			),
 		),
+		beego.NSNamespace("/leave",
+			beego.NSInclude(
+				&controllers.LeaveController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

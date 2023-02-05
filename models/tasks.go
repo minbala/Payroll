@@ -28,9 +28,18 @@ func init() {
 
 // AddTasks insert a new Tasks into database and returns
 // last inserted Id on success.
-func AddTasks(m *Tasks) (id int64, err error) {
+func AddTasks(m *TasksDataInput) (taskId int64, err error) {
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
+	task := &Tasks{Taskname: m.Tasks.Taskname, StartingDate: m.Tasks.StartingDate, EndingDate: m.Tasks.EndingDate}
+	if taskId, err = o.Insert(task); err == nil {
+		for _, value := range m.EmployeeId {
+			employee_task := &EmployeeTasks{EmployeeId: &Employees{Id: value}, TasksId: &Tasks{Id: int(taskId)}}
+			if _, err = o.Insert(employee_task); err != nil {
+				return
+			}
+		}
+		return
+	}
 	return
 }
 

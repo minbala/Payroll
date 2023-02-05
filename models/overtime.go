@@ -27,10 +27,15 @@ func init() {
 
 // AddOvertime insert a new Overtime into database and returns
 // last inserted Id on success.
-func AddOvertime(m *Overtime) (id int64, err error) {
+func AddOvertime(m *Overtime) (int64, error) {
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
-	return
+	if isTrue := m.StartingTime.Before(m.EndingTime); isTrue {
+		id, err := o.Insert(m)
+		return id, err
+
+	}
+
+	return 0, errors.New("ending date must come after starting date")
 }
 
 // GetOvertimeById retrieves Overtime by Id. Returns error if

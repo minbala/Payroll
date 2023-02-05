@@ -32,7 +32,7 @@ func (c *TasksController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *TasksController) Post() {
-	var v models.Tasks
+	var v models.TasksDataInput
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if _, err := models.AddTasks(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
